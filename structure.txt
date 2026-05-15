@@ -1,0 +1,71 @@
+📁 cognigate/
+│   📄 .gitignore
+│   📄 README.md
+│   📁 backend/
+│   │   📄 .env
+│   │   📄 .env.example
+│   │   📄 requirements.txt
+│   │   📁 app/
+│   │   │   📄 main.py
+│   │   │   📄 __init__.py
+│   │   │   📁 ai/
+│   │   │   │   📄 __init__.py
+│   │   │   📁 config/
+│   │   │   │   📄 cors.py
+│   │   │   │   📄 settings.py
+│   │   │   │   📄 __init__.py
+│   │   │   📁 database/
+│   │   │   │   📄 base.py
+│   │   │   │   📄 connection.py
+│   │   │   │   📄 _init_.py
+│   │   │   📁 middleware/
+│   │   │   │   📄 __init__.py
+│   │   │   📁 models/
+│   │   │   │   📄 otp.py
+│   │   │   │   📄 refresh_token.py
+│   │   │   │   📄 user.py
+│   │   │   │   📄 __init__.py
+│   │   │   📁 routes/
+│   │   │   │   📄 auth_routes.py
+│   │   │   │   📄 _init_.py
+│   │   │   📁 schemas/
+│   │   │   │   📄 auth_schema.py
+│   │   │   │   📄 __init__.py
+│   │   │   📁 services/
+│   │   │   │   📄 auth_service.py
+│   │   │   │   📄 email_service.py
+│   │   │   │   📄 __init__.py
+│   │   │   📁 utils/
+│   │   │   │   📄 dependencies.py
+│   │   │   │   📄 email_validator.py
+│   │   │   │   📄 jwt_handler.py
+│   │   │   │   📄 token.py
+│   │   │   │   📄 __init__.py
+│   📁 frontend/
+│   │   📄 .gitignore
+│   │   📄 eslint.config.js
+│   │   📄 index.html
+│   │   📄 jsconfig.json
+│   │   📄 package-lock.json
+│   │   📄 package.json
+│   │   📄 README.md
+│   │   📄 vite.config.js
+│   │   📁 public/
+│   │   │   📄 favicon.svg
+│   │   │   📄 icons.svg
+│   │   📁 src/
+│   │   │   📄 App.css
+│   │   │   📄 App.jsx
+│   │   │   📄 index.css
+│   │   │   📄 main.jsx
+│   │   │   📁 assets/
+│   │   │   │   📄 hero.png
+│   │   │   │   📄 react.svg
+│   │   │   │   📄 vite.svg
+│   │   │   📁 modules/
+│   │   │   │   📄 Login.jsx
+│   │   │   📁 services/
+│   │   │   │   📄 api.js
+│   │   │   │   📄 authService.js
+│   📁 tools/
+│   │   📄 generate_structure.py
