@@ -89,6 +89,7 @@ function LoginPage() {
             setLoading(true);
 
             // console.log(formData);
+            // console.log(response);
             const response = await loginUser(formData);
 
             // STORE TOKENS
@@ -106,7 +107,6 @@ function LoginPage() {
             // STORE USER
 
             login(response.user);
-
             // SUCCESS MESSAGE
 
             toast.success("Login successful");

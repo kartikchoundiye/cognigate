@@ -135,6 +135,11 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
         "access_token": access_token,
         "refresh_token": refresh_token,
         "token_type": "bearer",
+        "user": {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+        },
     }
 
 

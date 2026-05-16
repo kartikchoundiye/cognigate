@@ -39,13 +39,39 @@ function AuthProvider({ children }) {
 
     // LOAD USER ON REFRESH
 
+    // useEffect(() => {
+
+    //     const storedUser =
+    //         localStorage.getItem("user");
+
+    //     if (storedUser) {
+    //         setUser(JSON.parse(storedUser));
+    //     }
+
+    // }, []);
+
     useEffect(() => {
 
-        const storedUser =
-            localStorage.getItem("user");
+        try {
 
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
+            const storedUser =
+                localStorage.getItem("user");
+
+            if (
+                storedUser &&
+                storedUser !== "undefined"
+            ) {
+
+                setUser(JSON.parse(storedUser));
+            }
+
+        } catch (error) {
+
+            console.log(
+                "Invalid user data in localStorage"
+            );
+
+            localStorage.removeItem("user");
         }
 
     }, []);
