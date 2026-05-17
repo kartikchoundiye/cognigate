@@ -40,6 +40,10 @@ class LoginRequest(BaseModel):
         return v
 
 
+class LogoutRequest(BaseModel):
+    refresh_token: str
+
+
 class ForgotPasswordSendOTPRequest(BaseModel):
     email: EmailStr
 

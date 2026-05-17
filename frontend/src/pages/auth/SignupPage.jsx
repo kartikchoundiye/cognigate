@@ -1,17 +1,7 @@
-// function SignupPage() {
-// return ( <div>SignupPage</div>
-// );
-// }
-
-// export default SignupPage;
-
-
-
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { signupUser } from "@/services/authService";
+import { registerUser } from "@/services/authService";
 
 function SignupPage() {
 
@@ -94,7 +84,7 @@ function SignupPage() {
             setLoading(true);
 
             // console.log(formData);
-            await signupUser(formData);
+            await registerUser(formData);
 
             toast.success(
                 "Account created successfully"

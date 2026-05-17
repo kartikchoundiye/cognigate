@@ -6,6 +6,7 @@ from app.schemas.auth_schema import (
     VerifyOTPRequest,
     RegisterRequest,
     LoginRequest,
+    LogoutRequest,
     ForgotPasswordSendOTPRequest,
     ForgotPasswordVerifyOTPRequest,
     ForgotPasswordResetRequest,
@@ -121,13 +122,25 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
     access_token = create_access_token({"sub": user.email})
     refresh_token = create_refresh_token({"sub": user.email})
 
-    # Save refresh token
+    # Passive cleanup: delete globally expired tokens
+    db.query(RefreshToken).filter(RefreshToken.expires_at < datetime.utcnow()).delete()
+
+    # Enforce max 2 sessions rule
+    active_tokens = db.query(RefreshToken).filter(
+        RefreshToken.user_email == user.email
+    ).order_by(RefreshToken.id.desc()).all()
+    
+    if len(active_tokens) >= 2:
+        tokens_to_delete = active_tokens[1:] # Keep the most recent 1, delete the rest
+        for t in tokens_to_delete:
+            db.delete(t)
+
+    # Save new refresh token
     db_token = RefreshToken(
         user_email=user.email,
         token=refresh_token,
         expires_at=datetime.utcnow() + timedelta(days=7),
     )
-
     db.add(db_token)
     db.commit()
 
@@ -166,11 +179,12 @@ def refresh_token(refresh_token: str):
 
 
 @router.post("/logout")
-def logout(refresh_token: str):
+def logout(data: LogoutRequest):
+    # def logout(refresh_token: str):
     db = SessionLocal()
-
+    
     db_token = (
-        db.query(RefreshToken).filter(RefreshToken.token == refresh_token).first()
+        db.query(RefreshToken).filter(RefreshToken.token == data.refresh_token).first()
     )
 
     if db_token:
@@ -338,48 +352,36 @@ def delete_account(
     db: Session = Depends(get_db),
 ):
 
-    # =====================================
     # CONFIRMATION TEXT CHECK
-    # =====================================
 
     if data.confirm_text != "DELETE MY ACCOUNT":
         raise HTTPException(
             status_code=400, detail="Please type exactly: DELETE MY ACCOUNT"
         )
 
-    # =====================================
     # PASSWORD CHECK
-    # =====================================
 
     if not verify_password(data.password, current_user.password):
         raise HTTPException(status_code=400, detail="Incorrect password")
 
-    # =====================================
     # DELETE REFRESH TOKENS
-    # =====================================
 
     db.query(RefreshToken).filter(
         RefreshToken.user_email == current_user.email
     ).delete()
 
-    # =====================================
     # DELETE OTP RECORDS
-    # =====================================
 
     db.query(OTP).filter(OTP.email == current_user.email).delete()
 
-    # =====================================
     # GET USER FROM CURRENT DB SESSION
-    # =====================================
 
     user = db.query(User).filter(User.email == current_user.email).first()
 
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # =====================================
     # DELETE USER
-    # =====================================
 
     db.delete(user)
 

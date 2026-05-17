@@ -1,13 +1,3 @@
-// function LoginPage() {
-// return ( <div>LoginPage</div>
-// );
-// }
-
-// export default LoginPage;
-
-
-
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -88,48 +78,39 @@ function LoginPage() {
 
             setLoading(true);
 
-            // console.log(formData);
-            // console.log(response);
+            // Authenticate directly with the backend
             const response = await loginUser(formData);
 
             // STORE TOKENS
-
-            localStorage.setItem(
-                "access_token",
-                response.access_token
-            );
-
-            localStorage.setItem(
-                "refresh_token",
-                response.refresh_token
-            );
+            localStorage.setItem("access_token", response.access_token);
+            localStorage.setItem("refresh_token", response.refresh_token);
 
             // STORE USER
-
             login(response.user);
-            // SUCCESS MESSAGE
 
+            // SUCCESS MESSAGE
             toast.success("Login successful");
 
             // REDIRECT
-
             navigate("/dashboard");
 
-            // API integration later
-
         } catch (error) {
+            let message = "Login failed";
 
-            // console.log(error);
-            const message =
-                error.response?.data?.detail
-                || "Login failed";
+            const detail = error.response?.data?.detail;
+            if (detail) {
+                // If it's an array (like 422 Unprocessable Entity from FastAPI Pydantic validation)
+                if (Array.isArray(detail)) {
+                    message = detail[0].msg || "Validation error";
+                } else {
+                    // If it's a simple string (like 400 Bad Request)
+                    message = detail;
+                }
+            }
 
             toast.error(message);
-
         } finally {
-
             setLoading(false);
-
         }
     };
 

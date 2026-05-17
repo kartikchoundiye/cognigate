@@ -1,45 +1,61 @@
-// function DashboardLayout() {
-// return ( <div>DashboardLayout</div>
-// );
-// }
-
-// export default DashboardLayout;
-
-
-
-
 import { Outlet } from "react-router-dom";
+import { useState } from "react";
+
+import Sidebar from "@/components/layout/Sidebar";
+import MobileSidebar from "@/components/layout/MobileSidebar";
+import Topbar from "@/components/layout/Topbar";
 
 function DashboardLayout() {
 
+    const [openSidebar, setOpenSidebar] =
+        useState(false);
+
     return (
-        <div className="min-h-screen flex bg-[#F7F9FC]">
 
-            {/* Sidebar */}
+        <div
+            className="
+                min-h-screen
+                bg-[#F7F9FC]
+                flex
+            "
+        >
 
-            <div className="hidden lg:flex w-72 bg-white border-r border-gray-200">
+            {/* MOBILE SIDEBAR */}
 
-                <div className="p-6">
-                    Sidebar
-                </div>
+            <MobileSidebar
+                openSidebar={openSidebar}
+                setOpenSidebar={setOpenSidebar}
+            />
 
-            </div>
+            {/* DESKTOP SIDEBAR */}
 
-            {/* Main Content */}
+            <Sidebar />
 
-            <div className="flex-1">
+            {/* MAIN CONTENT */}
 
-                {/* Topbar */}
+            <div
+                className="
+                    flex-1
+                    lg:ml-72
+                    flex flex-col
+                    min-h-screen
+                "
+            >
 
-                <div className="h-16 bg-white border-b border-gray-200 flex items-center px-6">
+                {/* TOPBAR */}
 
-                    Topbar
+                <Topbar
+                    setOpenSidebar={setOpenSidebar}
+                />
 
-                </div>
+                {/* PAGE CONTENT */}
 
-                {/* Page Content */}
-
-                <main className="p-6">
+                <main
+                    className="
+                        flex-1
+                        p-4 md:p-6
+                    "
+                >
 
                     <Outlet />
 

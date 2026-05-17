@@ -1,30 +1,4 @@
-// function AppRoutes() {
-// return ( <div>AppRoutes</div>
-// );
-// }
-
-// export default AppRoutes;
-
-
-
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-// function AppRoutes() {
-//     return (
-//         <BrowserRouter>
-//             <Routes>
-
-//             </Routes>
-//         </BrowserRouter>
-//     );
-// }
-
-// export default AppRoutes;
-
-
-
-
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 // PUBLIC PAGES
 import HomePage from "@/pages/public/HomePage";
@@ -57,61 +31,57 @@ import DashboardLayout from "@/layouts/DashboardLayout";
 
 function AppRoutes() {
     return (
-        <BrowserRouter>
+        <Routes>
 
-            <Routes>
+            {/* ========================= */}
+            {/* PUBLIC ROUTES */}
+            {/* ========================= */}
 
-                {/* ========================= */}
-                {/* PUBLIC ROUTES */}
-                {/* ========================= */}
+            <Route element={<PublicLayout />}>
 
-                <Route element={<PublicLayout />}>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/features" element={<FeaturesPage />} />
+                <Route path="/about" element={<AboutPage />} />
 
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/features" element={<FeaturesPage />} />
-                    <Route path="/about" element={<AboutPage />} />
+            </Route>
 
-                </Route>
+            {/* ========================= */}
+            {/* AUTH ROUTES */}
+            {/* ========================= */}
 
-                {/* ========================= */}
-                {/* AUTH ROUTES */}
-                {/* ========================= */}
+            <Route element={<AuthLayout />}>
 
-                <Route element={<AuthLayout />}>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignupPage />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/verify-otp" element={<VerifyOTPPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/signup" element={<SignupPage />} />
-                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                    <Route path="/verify-otp" element={<VerifyOTPPage />} />
-                    <Route path="/reset-password" element={<ResetPasswordPage />} />
+            </Route>
 
-                </Route>
+            {/* ========================= */}
+            {/* PROTECTED DASHBOARD ROUTES */}
+            {/* ========================= */}
 
-                {/* ========================= */}
-                {/* PROTECTED DASHBOARD ROUTES */}
-                {/* ========================= */}
+            <Route
+                element={
+                    <ProtectedRoute>
+                        <DashboardLayout />
+                    </ProtectedRoute>
+                }
+            >
 
-                <Route
-                    element={
-                        <ProtectedRoute>
-                            <DashboardLayout />
-                        </ProtectedRoute>
-                    }
-                >
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/interview" element={<InterviewPage />} />
+                <Route path="/resume" element={<ResumePage />} />
+                <Route path="/analytics" element={<AnalyticsPage />} />
+                <Route path="/history" element={<HistoryPage />} />
+                <Route path="/feedback" element={<FeedbackPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
 
-                    <Route path="/dashboard" element={<DashboardPage />} />
-                    <Route path="/interview" element={<InterviewPage />} />
-                    <Route path="/resume" element={<ResumePage />} />
-                    <Route path="/analytics" element={<AnalyticsPage />} />
-                    <Route path="/history" element={<HistoryPage />} />
-                    <Route path="/feedback" element={<FeedbackPage />} />
-                    <Route path="/settings" element={<SettingsPage />} />
+            </Route>
 
-                </Route>
-
-            </Routes>
-
-        </BrowserRouter>
+        </Routes>
     );
 }
 
