@@ -50,3 +50,20 @@ export const changePassword = async (data) => {
     const response = await api.post("/api/auth/change-password", data);
     return response.data;
 };
+// FORGOT PASSWORD - SEND OTP
+export const forgotPasswordSendOTP = async (data) => {
+    const response = await api.post("/api/auth/forgot-password/send-otp", data);
+    return response.data;
+};
+
+// FORGOT PASSWORD - VERIFY OTP
+export const forgotPasswordVerifyOTP = async (data) => {
+    const response = await api.post("/api/auth/forgot-password/verify-otp", data);
+    return response.data;
+};
+
+// RESET PASSWORD
+export const resetPassword = async (data) => {
+    const response = await api.post("/api/auth/forgot-password/reset", data);
+    return response.data;
+};

@@ -1,97 +1,34 @@
 import { Menu } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
-const Topbar = ({ setOpenSidebar }) => {
-
+const Topbar = ({ setSidebarOpen }) => {
     const { user } = useAuth();
 
     return (
-
-        <header
-            className="
-                sticky top-0
-                bg-white/80
-                backdrop-blur-md
-                border-b border-gray-200
-                z-40
-            "
-        >
-
-            <div
-                className="
-                    h-20
-                    flex items-center justify-between
-                    px-4 md:px-6
-                "
-            >
-
+        <header className="h-20 bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-6 sticky top-0 z-30">
+            <div className="flex items-center gap-4">
                 {/* MOBILE MENU */}
                 <button
-                    onClick={() => setOpenSidebar(true)}
-                    className="
-                        lg:hidden
-                        p-2 rounded-lg
-                        hover:bg-gray-100
-                    "
+                    onClick={() => setSidebarOpen(true)}
+                    className="lg:hidden p-2.5 rounded-xl hover:bg-gray-50 text-gray-600 transition-colors border border-gray-200"
                 >
-
-                    <Menu size={24} />
-
+                    <Menu size={20} />
                 </button>
 
                 {/* TITLE */}
-                <div>
-
-                    <h2 className="text-2xl font-bold text-gray-800">
-
-                        Dashboard
-
-                    </h2>
-
-                </div>
-
-                {/* USER */}
-                <div
-                    className="
-                        flex items-center gap-3
-                    "
-                >
-
-                    <div className="text-right hidden sm:block">
-
-                        <p className="font-semibold text-gray-800">
-
-                            {user?.username || "User"}
-
-                        </p>
-
-                        <p className="text-sm text-gray-500">
-
-                            Candidate
-
-                        </p>
-
-                    </div>
-
-                    <div
-                        className="
-                            w-11 h-11
-                            rounded-full
-                            bg-blue-100
-                            flex items-center justify-center
-                            text-blue-600
-                            font-bold
-                        "
-                    >
-
-                        {user?.username?.charAt(0)?.toUpperCase() || "U"}
-
-                    </div>
-
-                </div>
-
+                <h2 className="text-xl font-bold text-gray-800 hidden sm:block">Dashboard</h2>
             </div>
 
+            {/* USER SECTION */}
+            <div className="flex items-center gap-4">
+                <div className="text-right hidden sm:block">
+                    <p className="font-semibold text-gray-900 text-sm leading-tight">{user?.username || "User"}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{user?.email || "Email"}</p>
+                </div>
+                <div className="w-11 h-11 rounded-full bg-linear-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold shadow-md shadow-blue-200 border-2 border-white ring-2 ring-gray-50">
+                    {user?.username?.charAt(0)?.toUpperCase() || "U"}
+                </div>
+            </div>
         </header>
     );
 };

@@ -1,50 +1,27 @@
-const MobileSidebar = ({
-    openSidebar,
-    setOpenSidebar,
-}) => {
+import Sidebar from "./Sidebar";
 
-    if (!openSidebar) return null;
-
+function MobileSidebar({ sidebarOpen, setSidebarOpen }) {
     return (
+        <>
+            {/* OVERLAY */}
+            {sidebarOpen && (
+                <div
+                    onClick={() => setSidebarOpen(false)}
+                    className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden transition-opacity"
+                />
+            )}
 
-        <div
-            className="
-                fixed inset-0
-                bg-black/40
-                z-50
-                lg:hidden
-            "
-            onClick={() => setOpenSidebar(false)}
-        >
-
+            {/* SIDEBAR */}
             <div
-                className="
-                    w-64 h-full
-                    bg-white
-                    shadow-xl
-                "
-                onClick={(e) => e.stopPropagation()}
+                className={`
+                    fixed top-0 left-0 h-full z-50 transform transition-transform duration-300 ease-in-out lg:hidden shadow-2xl
+                    ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+                `}
             >
-
-                <div className="p-6">
-
-                    <h1
-                        className="
-                            text-2xl font-bold
-                            text-blue-600
-                        "
-                    >
-
-                        Cognigate
-
-                    </h1>
-
-                </div>
-
+                <Sidebar mobile closeSidebar={() => setSidebarOpen(false)} />
             </div>
-
-        </div>
+        </>
     );
-};
+}
 
 export default MobileSidebar;
