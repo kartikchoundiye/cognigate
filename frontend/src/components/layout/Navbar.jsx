@@ -1,14 +1,5 @@
-// function Navbar() {
-// return ( <div>Navbar</div>
-// );
-// }
-
-// export default Navbar;
-
-
-
-
 import { Link } from "react-router-dom";
+import logo from "@/assets/cognigate_logo.jpeg";
 
 function Navbar() {
 
@@ -18,14 +9,14 @@ function Navbar() {
             <div className="max-w-7xl mx-auto px-6 py-4">
 
                 <div className="bg-white/80 backdrop-blur-md border border-gray-200 rounded-2xl shadow-sm px-6 py-4 flex items-center justify-between">
-
-                    {/* LOGO */}
-
                     <Link
                         to="/"
-                        className="text-2xl font-bold text-gray-900"
+                        className="flex items-center gap-3 transition-transform hover:opacity-80"
                     >
-                        Cognigate
+                        <div className="h-11 w-11 overflow-hidden rounded-xl shadow-sm border border-gray-200 bg-white">
+                            <img src={logo} alt="Cognigate" className="h-full w-full object-cover" />
+                        </div>
+                        <span className="text-2xl font-bold text-gray-900 tracking-tight">Cognigate</span>
                     </Link>
 
                     {/* NAV LINKS */}

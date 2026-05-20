@@ -167,7 +167,10 @@ def refresh_token(refresh_token: str):
     if not db_token:
         raise HTTPException(status_code=401, detail="Invalid refresh token")
 
-    if db_token.is_expired():
+    # Commented by agent, reason: Silence Pyright warning regarding model method return type cache in editor
+    # if db_token.is_expired():
+    # End commented by agent
+    if db_token.is_expired():  # type: ignore
         db.delete(db_token)
         db.commit()
         raise HTTPException(status_code=401, detail="Token expired")
@@ -329,7 +332,10 @@ def change_username(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    user.username = data.new_username
+    # Commented by agent, reason: Silence false-positive Pyright warning about assigning a string to a SQLAlchemy model column attribute
+    # user.username = data.new_username
+    # End commented by agent
+    user.username = data.new_username  # type: ignore
 
     db.commit()
     db.refresh(user)

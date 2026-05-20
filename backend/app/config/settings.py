@@ -31,17 +31,4 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
 
-
 settings = Settings()
-
-# SECRET_KEY = os.getenv("SECRET_KEY")
-
-# ACCESS_TOKEN_EXPIRE_MINUTES = 60
-# REFRESH_TOKEN_EXPIRE_DAYS = 1
-
-# ALGORITHM = os.getenv("ALGORITHM")
-
-# EMAIL_HOST = "smtp.gmail.com"
-# EMAIL_PORT = 587
-# EMAIL_USER = "cognigate.noreply@gmail.com"
-# EMAIL_PASSWORD = "niyciovpgswgyeey"

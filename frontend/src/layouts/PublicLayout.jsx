@@ -1,11 +1,3 @@
-// function PublicLayout() {
-// return ( <div>PublicLayout</div>
-// );
-// }
-
-// export default PublicLayout;
-
-
 import Navbar from "@/components/layout/Navbar";
 
 

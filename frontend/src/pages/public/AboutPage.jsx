@@ -1,12 +1,3 @@
-// function AboutPage() {
-// return ( <div>AboutPage</div>
-// );
-// }
-
-// export default AboutPage;
-
-
-
 function AboutPage() {
 
     return (

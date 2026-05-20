@@ -9,8 +9,6 @@ import AboutPage from "@/pages/public/AboutPage";
 import LoginPage from "@/pages/auth/LoginPage";
 import SignupPage from "@/pages/auth/SignupPage";
 import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
-import VerifyOTPPage from "@/pages/auth/VerifyOTPPage";
-import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
 
 // DASHBOARD PAGES
 import DashboardPage from "@/pages/dashboard/DashboardPage";
@@ -54,8 +52,6 @@ function AppRoutes() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                <Route path="/verify-otp" element={<VerifyOTPPage />} />
-                <Route path="/reset-password" element={<ResetPasswordPage />} />
 
             </Route>
 
