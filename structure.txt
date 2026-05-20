@@ -7,7 +7,7 @@
 │   │   📄 requirements.txt
 │   │   📁 app/
 │   │   │   📄 main.py
-│   │   │   📄 __init__.py
+│   │   │   📄 _init_.py
 │   │   │   📁 ai/
 │   │   │   │   📄 __init__.py
 │   │   │   📁 config/
@@ -53,19 +53,71 @@
 │   │   📁 public/
 │   │   │   📄 favicon.svg
 │   │   │   📄 icons.svg
+│   │   📁 scripts/
 │   │   📁 src/
 │   │   │   📄 App.css
 │   │   │   📄 App.jsx
 │   │   │   📄 index.css
 │   │   │   📄 main.jsx
 │   │   │   📁 assets/
+│   │   │   │   📄 cognigate_logo.jpeg
+│   │   │   │   📄 cognigate_logo_2.jpeg
+│   │   │   │   📄 cognigate_logo_3.png
+│   │   │   │   📄 cognigate_video.mp4
 │   │   │   │   📄 hero.png
 │   │   │   │   📄 react.svg
 │   │   │   │   📄 vite.svg
-│   │   │   📁 modules/
-│   │   │   │   📄 Login.jsx
+│   │   │   📁 components/
+│   │   │   │   📁 auth/
+│   │   │   │   📁 common/
+│   │   │   │   📁 dashboard/
+│   │   │   │   │   📄 InterviewChat.jsx
+│   │   │   │   │   📄 InterviewHeader.jsx
+│   │   │   │   │   📄 InterviewInput.jsx
+│   │   │   │   │   📄 InterviewMessage.jsx
+│   │   │   │   │   📄 InterviewSidebar.jsx
+│   │   │   │   │   📄 TypingIndicator.jsx
+│   │   │   │   │   📄 VoiceControls.jsx
+│   │   │   │   📁 layout/
+│   │   │   │   │   📄 Footer.jsx
+│   │   │   │   │   📄 MobileSidebar.jsx
+│   │   │   │   │   📄 Navbar.jsx
+│   │   │   │   │   📄 Sidebar.jsx
+│   │   │   │   │   📄 Topbar.jsx
+│   │   │   │   📁 ui/
+│   │   │   │   │   📄 DeleteAccountModal.jsx
+│   │   │   │   │   📄 LogoutModal.jsx
+│   │   │   📁 context/
+│   │   │   │   📄 AuthContext.jsx
+│   │   │   📁 hooks/
+│   │   │   │   📄 useAuth.js
+│   │   │   📁 layouts/
+│   │   │   │   📄 AuthLayout.jsx
+│   │   │   │   📄 DashboardLayout.jsx
+│   │   │   │   📄 PublicLayout.jsx
+│   │   │   📁 pages/
+│   │   │   │   📁 auth/
+│   │   │   │   │   📄 ForgotPasswordPage.jsx
+│   │   │   │   │   📄 LoginPage.jsx
+│   │   │   │   │   📄 SignupPage.jsx
+│   │   │   │   📁 dashboard/
+│   │   │   │   │   📄 AnalyticsPage.jsx
+│   │   │   │   │   📄 DashboardPage.jsx
+│   │   │   │   │   📄 FeedbackPage.jsx
+│   │   │   │   │   📄 HistoryPage.jsx
+│   │   │   │   │   📄 InterviewPage.jsx
+│   │   │   │   │   📄 ResumePage.jsx
+│   │   │   │   │   📄 SettingsPage.jsx
+│   │   │   │   📁 public/
+│   │   │   │   │   📄 AboutPage.jsx
+│   │   │   │   │   📄 FeaturesPage.jsx
+│   │   │   │   │   📄 HomePage.jsx
+│   │   │   📁 routes/
+│   │   │   │   📄 AppRoutes.jsx
 │   │   │   📁 services/
 │   │   │   │   📄 api.js
 │   │   │   │   📄 authService.js
+│   │   │   📁 utils/
+│   │   │   │   📄 ProtectedRoute.jsx
 │   📁 tools/
 │   │   📄 generate_structure.py
