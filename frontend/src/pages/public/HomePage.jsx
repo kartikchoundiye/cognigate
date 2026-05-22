@@ -1,4 +1,7 @@
-import { useState, useRef, useCallback } from "react";
+// Commented by agent, reason: Import useEffect to handle keydown events for playing and skipping the video
+// import { useState, useRef, useCallback } from "react";
+// End commented by agent
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Play } from "lucide-react";
 import introVideo from "@/assets/cognigate_video.mp4";
@@ -33,6 +36,27 @@ function HomePage() {
         }, 1000);
     }, []);
 
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (!showVideo) return;
+
+            if (event.key === "Escape") {
+                event.preventDefault();
+                handleSkipVideo();
+            } else if (!videoPlaying) {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    handlePlayVideo();
+                }
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [showVideo, videoPlaying, handlePlayVideo, handleSkipVideo]);
+
     return (
         <div className={showVideo ? "pt-24" : "pt-36"}>
 
@@ -49,18 +73,54 @@ function HomePage() {
                         ${fadeOut ? "opacity-0 max-h-0 min-h-0 py-0" : "opacity-100"}
                     `}
                 >
+
+
                     {/* VIDEO ELEMENT */}
-                    <video
-                        ref={videoRef}
-                        src={introVideo}
-                        onEnded={handleVideoEnded}
-                        playsInline
-                        className={`
-                            absolute inset-0 w-full h-full object-contain
-                            transition-opacity duration-500
-                            ${videoPlaying ? "opacity-100" : "opacity-0"}
-                        `}
-                    />
+
+                    {/* <div className={`
+                        absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                        w-full h-auto max-w-full max-h-full aspect-video
+                        transition-opacity duration-500
+                        ${videoPlaying ? "opacity-100" : "opacity-0 pointer-events-none"}
+                    `}>
+                        <video
+                            ref={videoRef}
+                            src={introVideo}
+                            onEnded={handleVideoEnded}
+                            playsInline
+                            className="w-full h-full object-cover"
+                        />
+                        {videoPlaying && (
+                            <div
+                                className="absolute bottom-[2%] left-[2%] w-[16%] h-[8%] backdrop-blur-xl bg-black/20 pointer-events-none z-10"
+                                style={{
+                                    maskImage: 'radial-gradient(circle, black 40%, transparent 80%)',
+                                    WebkitMaskImage: 'radial-gradient(circle, black 40%, transparent 80%)'
+                                }}
+                            />
+                        )}
+                    </div> */}
+
+                    <div className={`
+                        absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                        w-full h-auto max-w-full max-h-full aspect-video
+                        transition-opacity duration-500
+                        ${videoPlaying ? "opacity-100" : "opacity-0 pointer-events-none"}
+                    `}>
+                        <video
+                            ref={videoRef}
+                            src={introVideo}
+                            onEnded={handleVideoEnded}
+                            playsInline
+                            className="w-full h-full object-cover"
+                        />
+                        {videoPlaying && (
+                            <>
+                                {/* Gradient vignette to hide watermark and provide contrast */}
+                                <div className="absolute bottom-0 left-0 w-[25%] h-[15%] bg-gradient-to-tr from-gray-950 via-gray-950/70 to-transparent pointer-events-none z-10" />
+                            </>
+                        )}
+                    </div>
 
                     {/* PLAY BUTTON OVERLAY (before video starts) */}
                     {!videoPlaying && (
@@ -73,7 +133,7 @@ function HomePage() {
                                 Cognigate
                             </h2>
                             <p className="relative text-sm sm:text-base text-gray-400 -mt-4 uppercase tracking-widest text-center">
-                                AI Interview Platform
+                                Interview Preparation Platform
                             </p>
 
                             {/* Play Button */}
