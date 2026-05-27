@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int
     REFRESH_TOKEN_EXPIRE_DAYS: int
     GROQ_API_KEY: str
+    HF_TOKEN: str | None = None
 
     # Database
     DB_USER: str

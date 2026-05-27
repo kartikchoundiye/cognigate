@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from app.config.cors import setup_cors
 from app.routes.auth_routes import router as auth_router
+from app.routes.resume_routes import router as resume_router
 from app.database.base import Base, engine
 from app.models import user, refresh_token
 from fastapi.responses import RedirectResponse
@@ -16,6 +17,7 @@ app = FastAPI(
 setup_cors(app)
 
 app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
+app.include_router(resume_router,prefix="/api/resume",tags=["Resume"])
 
 
 @app.get(

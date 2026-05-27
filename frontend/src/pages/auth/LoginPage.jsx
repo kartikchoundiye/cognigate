@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { loginUser } from "@/services/authService";
 import { useAuth } from "@/hooks/useAuth";
+import logo from "@/assets/cognigate_logo.jpeg";
 
 function LoginPage() {
 
@@ -10,14 +11,10 @@ function LoginPage() {
     const { login } = useAuth();
 
     // REUSABLE STYLES
-
-    const inputStyles = ` w-full rounded-2xl border border-gray-300 bg-white px-4 py-4 outline-none transition focus:border-black `;
-
-    const labelStyles = ` block mb-2 text-sm font-medium text-gray-700 `;
-
-    const errorStyles = ` mt-2 text-sm text-red-500 `;
-
-    const buttonStyles = ` w-full rounded-2xl bg-black py-4 text-white font-medium transition hover:opacity-90 disabled:opacity-50 `;
+    const inputStyles = ` w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3.5 text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 `;
+    const labelStyles = ` block mb-2 text-sm font-semibold text-slate-700 `;
+    const errorStyles = ` mt-1.5 text-sm text-red-500 font-medium `;
+    const buttonStyles = ` w-full rounded-xl bg-slate-900 py-3.5 text-white font-semibold shadow-md shadow-slate-900/20 transition-all hover:bg-slate-800 hover:shadow-lg hover:shadow-slate-900/30 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none `;
 
 
     const [formData, setFormData] = useState({
@@ -115,129 +112,123 @@ function LoginPage() {
     };
 
     return (
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-md relative group">
+            {/* Glowing gradient effect behind the border */}
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 rounded-[2.2rem] blur opacity-40 group-hover:opacity-70 transition duration-500"></div>
+            <div className="relative w-full bg-white rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/50 p-8 sm:p-12">
 
-            {/* TITLE */}
-
-            <div className="mb-10">
-
-                <h1 className="text-4xl font-bold text-gray-900">
-                    Welcome Back
-                </h1>
-
-                <p className="text-gray-500 mt-3">
-                    Login to continue your interview preparation journey.
-                </p>
-
-            </div>
-
-            {/* FORM */}
-
-            <form
-                onSubmit={handleSubmit}
-                className="space-y-6"
-            >
-
-                {/* EMAIL */}
-
-                <div>
-
-                    <label className={labelStyles}>
-                        Email
-                    </label>
-
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Enter your email"
-                        className={inputStyles}
-                        value={formData.email}
-                        onChange={handleChange}
-                    />
-
-                    {
-                        errors.email && (
-                            <p className={errorStyles}>
-                                {errors.email}
-                            </p>
-                        )
-                    }
-
+                {/* TITLE */}
+                <div className="mb-8 text-center">
+                    <div className="flex items-center justify-center gap-3 mb-4">
+                        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white border border-slate-100 shadow-sm">
+                            <img src={logo} alt="Cognigate Logo" className="w-8 h-8 object-cover rounded-lg" />
+                        </div>
+                        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+                            Login
+                        </h1>
+                    </div>
+                    <h2 className="text-xl font-bold text-slate-800 tracking-tight">
+                        Welcome back
+                    </h2>
+                    <p className="text-slate-500 mt-2 text-sm">
+                        Enter your credentials to access your account.
+                    </p>
                 </div>
 
-                {/* PASSWORD */}
+                {/* FORM */}
 
-                <div>
+                <form
+                    onSubmit={handleSubmit}
+                    className="space-y-6"
+                >
 
-                    <label className={labelStyles}>
-                        Password
-                    </label>
+                    {/* EMAIL */}
 
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Enter your password"
-                        className={inputStyles}
-                        value={formData.password}
-                        onChange={handleChange}
-                    />
+                    <div>
 
-                    {
-                        errors.password && (
-                            <p className={errorStyles}>
-                                {errors.password}
-                            </p>
-                        )
-                    }
+                        <label className={labelStyles}>
+                            Email
+                        </label>
 
-                </div>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            className={inputStyles}
+                            value={formData.email}
+                            onChange={handleChange}
+                        />
 
-                {/* FORGOT PASSWORD */}
+                        {
+                            errors.email && (
+                                <p className={errorStyles}>
+                                    {errors.email}
+                                </p>
+                            )
+                        }
 
-                <div className="flex justify-end">
+                    </div>
 
-                    <Link
-                        to="/forgot-password"
-                        className="text-sm text-gray-600 hover:text-black"
+                    {/* PASSWORD */}
+
+                    <div>
+
+                        <label className={labelStyles}>
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            className={inputStyles}
+                            value={formData.password}
+                            onChange={handleChange}
+                        />
+
+                        {
+                            errors.password && (
+                                <p className={errorStyles}>
+                                    {errors.password}
+                                </p>
+                            )
+                        }
+
+                    </div>
+
+                    {/* FORGOT PASSWORD */}
+                    <div className="flex justify-end">
+                        <Link to="/forgot-password" className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+                            Forgot Password?
+                        </Link>
+                    </div>
+
+                    {/* BUTTON */}
+
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className={buttonStyles}
                     >
-                        Forgot Password?
+
+                        {
+                            loading
+                                ? "Logging in..."
+                                : "Login"
+                        }
+
+                    </button>
+
+                </form>
+
+                {/* FOOTER */}
+                <p className="text-center text-slate-500 mt-8 text-sm">
+                    Don&apos;t have an account?
+                    <Link to="/signup" className="ml-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+                        Sign Up
                     </Link>
-
-                </div>
-
-                {/* BUTTON */}
-
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className={buttonStyles}
-                >
-
-                    {
-                        loading
-                            ? "Logging in..."
-                            : "Login"
-                    }
-
-                </button>
-
-            </form>
-
-            {/* FOOTER */}
-
-            <p className="text-center text-gray-500 mt-8">
-
-                Don&apos;t have an account?
-
-                <Link
-                    to="/signup"
-                    className="ml-2 text-black font-medium"
-                >
-                    Sign Up
-                </Link>
-
-            </p>
-
+                </p>
+            </div>
         </div>
     );
 }
