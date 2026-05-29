@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.sql import func
-from app.database.base import Base
+from sqlalchemy.orm import relationship
 
+from app.database.base import Base
 
 class Resume(Base):
 
@@ -11,15 +12,20 @@ class Resume(Base):
 
     user_id = Column(
         Integer,
-        ForeignKey("users.id"),
-        nullable=False
+        ForeignKey("users.id", ondelete="CASCADE")
     )
+
+    title = Column(String, nullable=False)
 
     file_name = Column(String, nullable=False)
 
     file_path = Column(String, nullable=False)
 
-    uploaded_at = Column(
+    created_at = Column(
         DateTime(timezone=True),
         server_default=func.now()
     )
+
+    # RELATIONSHIP
+
+    user = relationship("User", back_populates="resumes")

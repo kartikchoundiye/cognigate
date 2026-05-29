@@ -1,6 +1,7 @@
 import { Outlet, useLocation, Link } from "react-router-dom";
 import logo from "../assets/cognigate_logo_3.png";
 import Navbar from "@/components/layout/Navbar";
+import { motion, AnimatePresence } from "framer-motion";
 
 function AuthLayout() {
     const location = useLocation();
@@ -9,19 +10,18 @@ function AuthLayout() {
     const isLeftForm = isLogin || isForgotPassword;
 
     return (
-        <div
-            className="min-h-screen bg-white relative flex lg:block overflow-hidden">
+        <div className="min-h-screen bg-slate-950 relative flex lg:block overflow-hidden">
+
+            <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/30 rounded-full blur-[120px] animate-pulse"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-600/30 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1.5s' }}></div>
 
             {/* LEFT SIDE - BRANDING & INFO */}
             <div
                 className={`
-                hidden lg:flex flex-col justify-between bg-slate-950 relative overflow-hidden px-12 py-16
+                hidden lg:flex flex-col justify-between relative overflow-hidden px-12 py-16
                 lg:absolute lg:top-0 lg:bottom-0 lg:w-1/2 lg:transition-transform lg:duration-[800ms] lg:ease-in-out lg:z-20
                 ${isLeftForm ? 'lg:translate-x-full' : 'lg:translate-x-0'}
             `}>
-                {/* Animated Background Gradients */}
-                <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/30 rounded-full blur-[120px] animate-pulse"></div>
-                <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-600/30 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1.5s' }}></div>
 
                 {/* Top Logo */}
                 <div className="relative z-10">
@@ -32,20 +32,30 @@ function AuthLayout() {
                 </div>
 
                 {/* Main Dynamic Content */}
-                <div className="relative z-10 max-w-lg mb-24 mt-12">
-                    <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-blue-200 text-xs font-semibold tracking-wider uppercase mb-6 backdrop-blur-sm">
-                        {isForgotPassword ? "Account Recovery" : (isLogin ? "Welcome Back" : "Start Your Journey")}
-                    </div>
-                    <h1 className="text-5xl font-extrabold text-white mb-6 leading-[1.15]">
-                        {isForgotPassword ? "Get back on track." : (isLogin ? "Resume your preparation." : "Master technical interviews with AI.")}
-                    </h1>
-                    <p className="text-lg text-slate-300 leading-relaxed">
-                        {isForgotPassword
-                            ? "Don't worry, it happens to the best of us. Reset your password to regain access to your dashboard and continue your technical preparation journey."
-                            : (isLogin
-                                ? "Pick up right where you left off. Review your past performances, tackle new challenges, and continue honing your technical skills."
-                                : "Simulate real-world technical interviews with our adaptive AI. Get instant, actionable feedback and land your dream job.")}
-                    </p>
+                <div className="relative z-10 max-w-lg mb-10 mt-8 xl:mb-16 xl:mt-12">
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={location.pathname + "-text"}
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -15 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                        >
+                            <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-blue-200 text-xs font-semibold tracking-wider uppercase mb-6 backdrop-blur-sm">
+                                {isForgotPassword ? "Account Recovery" : (isLogin ? "Welcome Back" : "Start Your Journey")}
+                            </div>
+                            <h1 className="text-4xl xl:text-5xl font-extrabold text-white mb-4 xl:mb-6 leading-[1.15]">
+                                {isForgotPassword ? "Get back on track." : (isLogin ? "Continue your journey." : "Unlock your engineering potential.")}
+                            </h1>
+                            <p className="text-lg text-slate-300 leading-relaxed">
+                                {isForgotPassword
+                                    ? "Don't worry, it happens to the best of us. Reset your password to regain access to your dashboard and continue your technical preparation journey."
+                                    : (isLogin
+                                        ? "Pick up right where you left off. Review your past performances, tackle new challenges, and continue honing your technical skills."
+                                        : "Simulate real-world technical interviews with our adaptive AI. Get instant, actionable feedback and land your dream job.")}
+                            </p>
+                        </motion.div>
+                    </AnimatePresence>
                 </div>
 
                 {/* Bottom Testimonial */}
@@ -75,9 +85,10 @@ function AuthLayout() {
             </div>
 
 
+            {/* RIGHT SIDE - FORM CONTAINER */}
             <div
                 className={`
-                flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-20 xl:px-24 bg-white relative
+                flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-20 xl:px-24 relative
                 lg:absolute lg:top-0 lg:bottom-0 lg:w-1/2 lg:overflow-y-auto lg:transition-transform lg:duration-[800ms] lg:ease-in-out lg:z-10
                 ${isLeftForm ? 'lg:translate-x-0' : 'lg:translate-x-full'}
             `}>
@@ -88,7 +99,17 @@ function AuthLayout() {
 
                 {/* The Form Outlet */}
                 <div className="mx-auto w-full max-w-sm sm:max-w-md mt-32 lg:mt-0 relative z-10">
-                    <Outlet />
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={location.pathname + "-form"}
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                        >
+                            <Outlet />
+                        </motion.div>
+                    </AnimatePresence>
                 </div>
             </div>
         </div>

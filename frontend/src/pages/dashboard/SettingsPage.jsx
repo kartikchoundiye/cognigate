@@ -2,17 +2,14 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { deleteAccount, changeUsername, changePassword } from "@/services/authService";
 import DeleteAccountModal from "@/components/ui/DeleteAccountModal";
-import { User, Lock, Trash2, Save, ShieldCheck, ChevronDown, ChevronUp, Settings } from "lucide-react";
+import { User, Lock, Trash2, Save, ShieldCheck, ChevronDown, ChevronUp, Settings, ShieldAlert, KeyRound } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 function SettingsPage() {
     const { logout, user, updateUser } = useAuth();
 
-    // Accordion State
-    const [activeSection, setActiveSection] = useState(null); // 'username' | 'password' | 'delete'
-
-    const toggleSection = (section) => {
-        setActiveSection(activeSection === section ? null : section);
-    };
+    // Tab State
+    const [activeTab, setActiveTab] = useState('general'); // 'general' | 'security' | 'account'
 
     // Username State
     const [newUsername, setNewUsername] = useState("");
@@ -106,52 +103,83 @@ function SettingsPage() {
         }
     };
 
+    const tabs = [
+        { id: 'general', label: 'General', icon: User },
+        { id: 'security', label: 'Security', icon: KeyRound },
+        { id: 'account', label: 'Account Management', icon: ShieldAlert },
+    ];
+
     return (
-        <div className="space-y-8 max-w-4xl mx-auto pb-12">
+        <div className="max-w-6xl mx-auto pb-12">
             {/* PAGE HEADER */}
-            <div className="border-b border-gray-200 pb-6">
-                <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-                <p className="mt-2 text-gray-600">
-                    Manage your account details, security preferences, and data.
+            <div className="mb-8 sm:mb-10 relative px-2 sm:px-0">
+                <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                    <div className="p-2 sm:p-2.5 bg-gray-900 text-white rounded-lg sm:rounded-xl shadow-md border border-gray-700 shrink-0">
+                        <Settings className="w-5 h-5 sm:w-6 sm:h-6" />
+                    </div>
+                    <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-gray-900 to-gray-500 tracking-tight whitespace-nowrap">
+                        Account Settings
+                    </h1>
+                </div>
+                <p className="mt-2 sm:mt-3 text-base sm:text-lg text-gray-500 leading-relaxed">
+                    Personalize your experience, update security preferences, and manage your data all in one place.
                 </p>
+                <div className="absolute -bottom-4 sm:-bottom-5 left-0 w-full h-[1px] bg-linear-to-r from-gray-200 via-gray-100 to-transparent"></div>
             </div>
 
-            <div className="grid grid-cols-1 gap-8">
-                {/* PROFILE SETTINGS - ACCORDION */}
-                <div className="bg-white border border-gray-100 rounded-3xl p-4 sm:p-8 shadow-sm">
-                    <div className="flex items-center gap-3 mb-6 px-2">
-                        <div className="p-2.5 bg-gray-900 text-white rounded-xl shadow-sm">
-                            <Settings size={22} />
-                        </div>
-                        <h2 className="text-xl font-semibold text-gray-900">Profile Settings</h2>
-                    </div>
+            <div className="flex flex-col lg:flex-row gap-10">
+                {/* SIDEBAR NAVIGATION */}
+                <div className="lg:w-1/4">
+                    <nav className="flex lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-hide">
+                        {tabs.map((tab) => {
+                            const Icon = tab.icon;
+                            const isActive = activeTab === tab.id;
 
-                    <div className="space-y-4">
-                        {/* CHANGE USERNAME ROW */}
-                        <div className={`border rounded-2xl overflow-hidden transition-all duration-200 ${activeSection === 'username' ? 'border-blue-200 ring-1 ring-blue-50' : 'border-gray-100 hover:border-gray-200'}`}>
-                            <button
-                                onClick={() => toggleSection('username')}
-                                className="w-full flex items-center justify-between p-5 bg-white hover:bg-gray-50 transition-colors"
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
-                                        <User size={20} />
-                                    </div>
-                                    <div className="text-left">
-                                        <h3 className="font-semibold text-gray-900">Change Username</h3>
-                                        <p className="text-sm text-gray-500 hidden sm:block">Update your display name across the platform</p>
-                                    </div>
-                                </div>
-                                <div className="text-gray-400">
-                                    {activeSection === 'username' ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                                </div>
-                            </button>
+                            // Color mapping for active states
+                            let colorClasses = "text-gray-600 hover:bg-gray-100 hover:text-gray-900";
+                            if (isActive) {
+                                if (tab.id === 'account') colorClasses = "bg-red-50 text-red-700 ring-1 ring-red-200";
+                                else if (tab.id === 'security') colorClasses = "bg-purple-50 text-purple-700 ring-1 ring-purple-200";
+                                else colorClasses = "bg-blue-50 text-blue-700 ring-1 ring-blue-200";
+                            }
 
-                            {activeSection === 'username' && (
-                                <div className="p-5 bg-gray-50/50 border-t border-gray-100">
-                                    <form onSubmit={handleUpdateUsername} className="max-w-md space-y-4">
+                            return (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => setActiveTab(tab.id)}
+                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all whitespace-nowrap text-sm ${colorClasses}`}
+                                >
+                                    <Icon size={18} className={isActive ? "" : "text-gray-400"} />
+                                    {tab.label}
+                                </button>
+                            );
+                        })}
+                    </nav>
+                </div>
+
+                {/* MAIN CONTENT AREA */}
+                <div className="lg:w-3/4">
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={activeTab}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.2 }}
+                            className="bg-white border border-gray-200 rounded-3xl p-6 sm:p-10 shadow-sm"
+                        >
+                            {/* GENERAL TAB */}
+                            {activeTab === 'general' && (
+                                <div>
+                                    <div className="mb-8">
+                                        <h2 className="text-2xl font-bold text-gray-900">General Information</h2>
+                                        <p className="text-gray-500 mt-1">Update your display name across the platform.</p>
+                                    </div>
+
+                                    <form onSubmit={handleUpdateUsername} className="max-w-md space-y-5">
                                         {usernameSuccess && (
-                                            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm">
+                                            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
+                                                <ShieldCheck size={18} />
                                                 {usernameSuccess}
                                             </div>
                                         )}
@@ -161,51 +189,36 @@ function SettingsPage() {
                                             </div>
                                         )}
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">New Username</label>
+                                            <label className="block text-sm font-semibold text-gray-700 mb-2">Username</label>
                                             <input
                                                 type="text"
                                                 placeholder="Enter new username"
                                                 value={newUsername}
                                                 onChange={(e) => setNewUsername(e.target.value)}
-                                                className="w-full border border-gray-300 rounded-xl px-4 py-2.5 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                                                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all text-gray-900 bg-gray-50 focus:bg-white"
                                             />
                                         </div>
                                         <button
                                             type="submit"
                                             disabled={usernameLoading || !newUsername.trim()}
-                                            className="flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white px-5 py-2.5 rounded-xl transition-all disabled:opacity-50 font-medium text-sm"
+                                            className="flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white px-6 py-3 rounded-xl transition-all disabled:opacity-50 font-medium text-sm shadow-md"
                                         >
                                             <Save size={18} />
-                                            {usernameLoading ? "Saving..." : "Update Username"}
+                                            {usernameLoading ? "Saving..." : "Save Changes"}
                                         </button>
                                     </form>
                                 </div>
                             )}
-                        </div>
 
-                        {/* CHANGE PASSWORD ROW */}
-                        <div className={`border rounded-2xl overflow-hidden transition-all duration-200 ${activeSection === 'password' ? 'border-purple-200 ring-1 ring-purple-50' : 'border-gray-100 hover:border-gray-200'}`}>
-                            <button
-                                onClick={() => toggleSection('password')}
-                                className="w-full flex items-center justify-between p-5 bg-white hover:bg-gray-50 transition-colors"
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="p-2 bg-purple-50 text-purple-600 rounded-lg">
-                                        <Lock size={20} />
+                            {/* SECURITY TAB */}
+                            {activeTab === 'security' && (
+                                <div>
+                                    <div className="mb-8">
+                                        <h2 className="text-2xl font-bold text-gray-900">Security Settings</h2>
+                                        <p className="text-gray-500 mt-1">Ensure your account is using a long, random password.</p>
                                     </div>
-                                    <div className="text-left">
-                                        <h3 className="font-semibold text-gray-900">Change Password</h3>
-                                        <p className="text-sm text-gray-500 hidden sm:block">Ensure your account is using a long, random password</p>
-                                    </div>
-                                </div>
-                                <div className="text-gray-400">
-                                    {activeSection === 'password' ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                                </div>
-                            </button>
 
-                            {activeSection === 'password' && (
-                                <div className="p-5 bg-gray-50/50 border-t border-gray-100">
-                                    <form onSubmit={handleUpdatePassword} className="max-w-md space-y-4">
+                                    <form onSubmit={handleUpdatePassword} className="max-w-md space-y-5">
                                         {passwordSuccess && (
                                             <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
                                                 <ShieldCheck size={18} />
@@ -218,84 +231,78 @@ function SettingsPage() {
                                             </div>
                                         )}
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                                            <label className="block text-sm font-semibold text-gray-700 mb-2">Current Password</label>
                                             <input
                                                 type="password"
                                                 placeholder="Enter current password"
                                                 value={currentPassword}
                                                 onChange={(e) => setCurrentPassword(e.target.value)}
-                                                className="w-full border border-gray-300 rounded-xl px-4 py-2.5 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors"
+                                                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition-all text-gray-900 bg-gray-50 focus:bg-white"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                                            <label className="block text-sm font-semibold text-gray-700 mb-2">New Password</label>
                                             <input
                                                 type="password"
                                                 placeholder="Enter new password"
                                                 value={newPassword}
                                                 onChange={(e) => setNewPassword(e.target.value)}
-                                                className="w-full border border-gray-300 rounded-xl px-4 py-2.5 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors"
+                                                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition-all text-gray-900 bg-gray-50 focus:bg-white"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                                            <label className="block text-sm font-semibold text-gray-700 mb-2">Confirm New Password</label>
                                             <input
                                                 type="password"
                                                 placeholder="Confirm new password"
                                                 value={confirmPassword}
                                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                                className="w-full border border-gray-300 rounded-xl px-4 py-2.5 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors"
+                                                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 transition-all text-gray-900 bg-gray-50 focus:bg-white"
                                             />
                                         </div>
                                         <button
                                             type="submit"
                                             disabled={passwordLoading || !currentPassword || !newPassword || !confirmPassword}
-                                            className="flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white px-5 py-2.5 rounded-xl transition-all disabled:opacity-50 font-medium text-sm"
+                                            className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl transition-all disabled:opacity-50 font-medium text-sm shadow-md shadow-purple-200"
                                         >
-                                            <Save size={18} />
-                                            {passwordLoading ? "Updating..." : "Change Password"}
+                                            <Lock size={18} />
+                                            {passwordLoading ? "Updating..." : "Update Password"}
                                         </button>
                                     </form>
                                 </div>
                             )}
-                        </div>
 
-                        {/* DELETE ACCOUNT ROW */}
-                        <div className={`border rounded-2xl overflow-hidden transition-all duration-200 ${activeSection === 'delete' ? 'border-red-200 ring-1 ring-red-50' : 'border-red-100 hover:border-red-200'}`}>
-                            <button
-                                onClick={() => toggleSection('delete')}
-                                className="w-full flex items-center justify-between p-5 bg-white hover:bg-red-50/30 transition-colors"
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="p-2 bg-red-50 text-red-600 rounded-lg">
-                                        <Trash2 size={20} />
+                            {/* ACCOUNT MANAGEMENT TAB */}
+                            {activeTab === 'account' && (
+                                <div>
+                                    <div className="mb-8">
+                                        <h2 className="text-2xl font-bold text-gray-900">Account Management</h2>
+                                        <p className="text-gray-500 mt-1">Manage your account lifecycle and data.</p>
                                     </div>
-                                    <div className="text-left">
-                                        <h3 className="font-semibold text-red-600">Delete Account</h3>
-                                        <p className="text-sm text-gray-500 hidden sm:block">Permanently delete your account and all data</p>
-                                    </div>
-                                </div>
-                                <div className="text-red-400">
-                                    {activeSection === 'delete' ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                                </div>
-                            </button>
 
-                            {activeSection === 'delete' && (
-                                <div className="p-5 bg-red-50/30 border-t border-red-100">
-                                    <p className="text-gray-600 mb-4 text-sm leading-relaxed max-w-2xl">
-                                        Permanently delete your account, active sessions, and all associated data. This action is irreversible. Please be certain.
-                                    </p>
-                                    <button
-                                        onClick={() => setIsDeleteModalOpen(true)}
-                                        className="bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 px-6 py-2.5 rounded-xl font-medium transition-all text-sm"
-                                    >
-                                        Proceed to Delete Account
-                                    </button>
+                                    <div className="p-6 bg-red-50/50 border border-red-100 rounded-2xl max-w-2xl">
+                                        <div className="flex items-start gap-4">
+                                            <div className="p-3 bg-red-100 text-red-600 rounded-xl shrink-0">
+                                                <Trash2 size={24} />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-lg font-bold text-red-700 mb-2">Delete Account</h3>
+                                                <p className="text-gray-600 mb-6 text-sm leading-relaxed">
+                                                    Permanently delete your account, active sessions, and all associated data. This action is strictly irreversible. Please proceed with caution.
+                                                </p>
+                                                <button
+                                                    onClick={() => setIsDeleteModalOpen(true)}
+                                                    className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-medium transition-all text-sm shadow-md shadow-red-200"
+                                                >
+                                                    Delete Account
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             )}
-                        </div>
-
-                    </div>
+                        </motion.div>
+                    </AnimatePresence>
                 </div>
             </div>
 

@@ -6,19 +6,20 @@ import Topbar from "@/components/layout/Topbar";
 
 function DashboardLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
     return (
-        <div className="min-h-screen bg-[#F7F9FC] flex">
+        <div className="h-screen overflow-hidden bg-[#F7F9FC] flex">
             {/* MOBILE SIDEBAR */}
             <MobileSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
             {/* DESKTOP SIDEBAR */}
-            <div className="hidden lg:flex">
-                <Sidebar />
+            <div className="hidden lg:flex transition-all duration-300">
+                <Sidebar isExpanded={isSidebarExpanded} setIsExpanded={setIsSidebarExpanded} />
             </div>
 
             {/* MAIN CONTENT */}
-            <div className="flex-1 flex flex-col min-w-0">
+            <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
                 <Topbar setSidebarOpen={setSidebarOpen} />
 
                 <main className="flex-1 p-4 md:p-6 overflow-x-hidden">

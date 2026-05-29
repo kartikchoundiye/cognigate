@@ -16,7 +16,6 @@ function LoginPage() {
     const errorStyles = ` mt-1.5 text-sm text-red-500 font-medium `;
     const buttonStyles = ` w-full rounded-xl bg-slate-900 py-3.5 text-white font-semibold shadow-md shadow-slate-900/20 transition-all hover:bg-slate-800 hover:shadow-lg hover:shadow-slate-900/30 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none `;
 
-
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -134,7 +133,6 @@ function LoginPage() {
                         Enter your credentials to access your account.
                     </p>
                 </div>
-
                 {/* FORM */}
 
                 <form
@@ -157,6 +155,7 @@ function LoginPage() {
                             className={inputStyles}
                             value={formData.email}
                             onChange={handleChange}
+                            spellCheck="false"
                         />
 
                         {
@@ -197,6 +196,7 @@ function LoginPage() {
                     </div>
 
                     {/* FORGOT PASSWORD */}
+
                     <div className="flex justify-end">
                         <Link to="/forgot-password" className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
                             Forgot Password?
@@ -222,6 +222,7 @@ function LoginPage() {
                 </form>
 
                 {/* FOOTER */}
+
                 <p className="text-center text-slate-500 mt-8 text-sm">
                     Don&apos;t have an account?
                     <Link to="/signup" className="ml-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors">

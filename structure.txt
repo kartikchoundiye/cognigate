@@ -23,24 +23,42 @@
 │   │   │   📁 models/
 │   │   │   │   📄 otp.py
 │   │   │   │   📄 refresh_token.py
+│   │   │   │   📄 resume.py
 │   │   │   │   📄 user.py
 │   │   │   │   📄 __init__.py
 │   │   │   📁 routes/
 │   │   │   │   📄 auth_routes.py
+│   │   │   │   📄 resume_routes.py
 │   │   │   │   📄 _init_.py
 │   │   │   📁 schemas/
 │   │   │   │   📄 auth_schema.py
+│   │   │   │   📄 resume_schema.py
 │   │   │   │   📄 __init__.py
 │   │   │   📁 services/
 │   │   │   │   📄 auth_service.py
 │   │   │   │   📄 email_service.py
 │   │   │   │   📄 __init__.py
+│   │   │   │   📁 resume/
+│   │   │   │   │   📄 chroma_service.py
+│   │   │   │   │   📄 file_service.py
+│   │   │   │   │   📄 pdf_parser.py
+│   │   │   │   │   📄 resume_service.py
+│   │   │   │   │   📄 text_chunker.py
 │   │   │   📁 utils/
 │   │   │   │   📄 dependencies.py
 │   │   │   │   📄 email_validator.py
 │   │   │   │   📄 jwt_handler.py
 │   │   │   │   📄 token.py
 │   │   │   │   📄 __init__.py
+│   │   📁 chroma_db/
+│   │   │   📄 chroma.sqlite3
+│   │   │   📁 f4fdd04c-8b09-4b3c-b796-24faf5e1e93d/
+│   │   │   │   📄 data_level0.bin
+│   │   │   │   📄 header.bin
+│   │   │   │   📄 length.bin
+│   │   │   │   📄 link_lists.bin
+│   │   📁 uploads/
+│   │   │   📄 ab098208-2b76-4c2b-9c0c-dd3bf62a3de6_Resume_KGC.pdf
 │   📁 frontend/
 │   │   📄 .gitignore
 │   │   📄 eslint.config.js
@@ -117,6 +135,7 @@
 │   │   │   📁 services/
 │   │   │   │   📄 api.js
 │   │   │   │   📄 authService.js
+│   │   │   │   📄 resumeService.js
 │   │   │   📁 utils/
 │   │   │   │   📄 ProtectedRoute.jsx
 │   📁 tools/

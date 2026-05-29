@@ -46,3 +46,10 @@ Thumbs.db
 
 .pytest_cache/
 .coverage
+
+# =========================
+# User Data / Databases
+# =========================
+
+backend/chroma_db/
+backend/uploads/

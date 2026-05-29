@@ -164,6 +164,7 @@ function ForgotPasswordPage() {
                                 className={inputStyles}
                                 value={formData.email}
                                 onChange={handleChange}
+                                spellCheck="false"
                             />
                             {errors.email && (
                                 <p className={errorStyles}>{errors.email}</p>
@@ -189,6 +190,7 @@ function ForgotPasswordPage() {
                                 className={inputStyles}
                                 value={formData.otp}
                                 onChange={handleChange}
+                                spellCheck="false"
                             />
                             {errors.otp && (
                                 <p className={errorStyles}>{errors.otp}</p>
@@ -256,6 +258,7 @@ function ForgotPasswordPage() {
                 )}
 
                 {/* FOOTER */}
+
                 <p className="text-center text-slate-500 mt-8 text-sm">
                     Remember your password?
                     <Link to="/login" className="ml-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors">
