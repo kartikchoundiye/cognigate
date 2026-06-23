@@ -139,7 +139,7 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
     db_token = RefreshToken(
         user_email=user.email,
         token=refresh_token,
-        expires_at=datetime.utcnow() + timedelta(days=7),
+        expires_at=datetime.utcnow() + timedelta(days=1),
     )
     db.add(db_token)
     db.commit()
@@ -189,6 +189,9 @@ def logout(data: LogoutRequest):
     db_token = (
         db.query(RefreshToken).filter(RefreshToken.token == data.refresh_token).first()
     )
+
+    if not db_token:
+        raise HTTPException(status_code=400, detail="Token already invalidated or logged out")
 
     if db_token:
         db.delete(db_token)
@@ -332,10 +335,7 @@ def change_username(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # Commented by agent, reason: Silence false-positive Pyright warning about assigning a string to a SQLAlchemy model column attribute
-    # user.username = data.new_username
-    # End commented by agent
-    user.username = data.new_username  # type: ignore
+    user.username = data.new_username
 
     db.commit()
     db.refresh(user)

@@ -19,8 +19,8 @@ function Sidebar({ mobile, closeSidebar, isExpanded = true, setIsExpanded }) {
 
     const navItems = [
         { title: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
-        { title: "Interview", icon: Mic, path: "/interview" },
         { title: "Resume", icon: FileText, path: "/resume" },
+        { title: "Interview", icon: Mic, path: "/interview" },
         { title: "Analytics", icon: BarChart3, path: "/analytics" },
         { title: "History", icon: History, path: "/history" },
         { title: "Feedback", icon: MessageSquare, path: "/feedback" },

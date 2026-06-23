@@ -2,9 +2,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.engine import URL
 from dotenv import load_dotenv
-# Commented by agent, reason: Fix circular import
-# from app.models.resume import Resume
-# End commented by agent
 import os
 
 load_dotenv()

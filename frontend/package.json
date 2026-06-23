@@ -19,7 +19,8 @@
     "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.15.1",
     "swiper": "^12.1.4",
-    "tailwindcss": "^4.2.4"
+    "tailwindcss": "^4.2.4",
+    "three": "^0.184.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",

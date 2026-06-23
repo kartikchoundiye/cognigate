@@ -1,4 +1,9 @@
 from app.models.resume import Resume
+from app.models.resume_metadata import ResumeMetadata
+
+from app.services.ai.resume_structuring_service import (
+    structure_resume
+)
 
 from app.services.resume.pdf_parser import (
     extract_text_from_pdf
@@ -54,6 +59,26 @@ def upload_resume_service(
     # CHUNK TEXT
 
     chunks = chunk_text(extracted_text)
+
+    metadata = structure_resume(
+        extracted_text
+    )
+
+    metadata_record = ResumeMetadata(
+
+        user_id=current_user.id,
+
+        resume_id=resume.id,
+
+        metadata_json=metadata
+
+    )
+
+    db.add(
+        metadata_record
+    )
+
+    db.commit()
 
     # STORE CHUNKS
 

@@ -21,28 +21,59 @@
 │   │   │   📁 middleware/
 │   │   │   │   📄 __init__.py
 │   │   │   📁 models/
+│   │   │   │   📄 interview_session.py
 │   │   │   │   📄 otp.py
 │   │   │   │   📄 refresh_token.py
 │   │   │   │   📄 resume.py
+│   │   │   │   📄 resume_metadata.py
 │   │   │   │   📄 user.py
 │   │   │   │   📄 __init__.py
 │   │   │   📁 routes/
 │   │   │   │   📄 auth_routes.py
+│   │   │   │   📄 interview_routes.py
+│   │   │   │   📄 interview_session_routes.py
+│   │   │   │   📄 resume_metadata_routes.py
 │   │   │   │   📄 resume_routes.py
 │   │   │   │   📄 _init_.py
 │   │   │   📁 schemas/
 │   │   │   │   📄 auth_schema.py
+│   │   │   │   📄 interview_schema.py
+│   │   │   │   📄 interview_session_schema.py
 │   │   │   │   📄 resume_schema.py
 │   │   │   │   📄 __init__.py
 │   │   │   📁 services/
 │   │   │   │   📄 auth_service.py
 │   │   │   │   📄 email_service.py
 │   │   │   │   📄 __init__.py
+│   │   │   │   📁 ai/
+│   │   │   │   │   📄 groq_service.py
+│   │   │   │   │   📄 prompt_service.py
+│   │   │   │   │   📄 rag_service.py
+│   │   │   │   │   📄 resume_structuring_service.py
+│   │   │   │   │   📄 retrieval_service.py
+│   │   │   │   📁 aptitude/
+│   │   │   │   │   📄 aptitude_evaluation_service.py
+│   │   │   │   │   📄 aptitude_question_service.py
+│   │   │   │   📁 hr/
+│   │   │   │   │   📄 hr_evaluator.py
+│   │   │   │   │   📄 hr_interview_service.py
+│   │   │   │   │   📄 hr_question_generator.py
+│   │   │   │   📁 interview/
+│   │   │   │   │   📄 answer_evaluator.py
+│   │   │   │   │   📄 aptitude_session_service.py
+│   │   │   │   │   📄 interview_session_service.py
+│   │   │   │   │   📄 question_generator.py
+│   │   │   │   │   📄 technical_interviewer.py
 │   │   │   │   📁 resume/
 │   │   │   │   │   📄 chroma_service.py
 │   │   │   │   │   📄 file_service.py
 │   │   │   │   │   📄 pdf_parser.py
+│   │   │   │   │   📄 resume_metadata_service.py
+│   │   │   │   │   📄 resume_profile_service.py
+│   │   │   │   │   📄 resume_section_service.py
 │   │   │   │   │   📄 resume_service.py
+│   │   │   │   │   📄 resume_skill_service.py
+│   │   │   │   │   📄 resume_validator.py
 │   │   │   │   │   📄 text_chunker.py
 │   │   │   📁 utils/
 │   │   │   │   📄 dependencies.py
@@ -58,7 +89,6 @@
 │   │   │   │   📄 length.bin
 │   │   │   │   📄 link_lists.bin
 │   │   📁 uploads/
-│   │   │   📄 ab098208-2b76-4c2b-9c0c-dd3bf62a3de6_Resume_KGC.pdf
 │   📁 frontend/
 │   │   📄 .gitignore
 │   │   📄 eslint.config.js
@@ -89,13 +119,18 @@
 │   │   │   │   📁 auth/
 │   │   │   │   📁 common/
 │   │   │   │   📁 dashboard/
-│   │   │   │   │   📄 InterviewChat.jsx
-│   │   │   │   │   📄 InterviewHeader.jsx
-│   │   │   │   │   📄 InterviewInput.jsx
-│   │   │   │   │   📄 InterviewMessage.jsx
-│   │   │   │   │   📄 InterviewSidebar.jsx
-│   │   │   │   │   📄 TypingIndicator.jsx
-│   │   │   │   │   📄 VoiceControls.jsx
+│   │   │   │   │   📁 analytics/
+│   │   │   │   │   📁 interview/
+│   │   │   │   │   │   📄 AnswerBubble.jsx
+│   │   │   │   │   │   📄 FeedbackBubble.jsx
+│   │   │   │   │   │   📄 InterviewAnswerCard.jsx
+│   │   │   │   │   │   📄 InterviewControls.jsx
+│   │   │   │   │   │   📄 InterviewConversation.jsx
+│   │   │   │   │   │   📄 InterviewHeader.jsx
+│   │   │   │   │   │   📄 InterviewQuestionCard.jsx
+│   │   │   │   │   │   📄 InterviewSidebar.jsx
+│   │   │   │   │   │   📄 PlasmaSphere.jsx
+│   │   │   │   │   │   📄 QuestionBubble.jsx
 │   │   │   │   📁 layout/
 │   │   │   │   │   📄 Footer.jsx
 │   │   │   │   │   📄 MobileSidebar.jsx
@@ -107,8 +142,11 @@
 │   │   │   │   │   📄 LogoutModal.jsx
 │   │   │   📁 context/
 │   │   │   │   📄 AuthContext.jsx
+│   │   │   │   📄 InterviewContext.jsx
 │   │   │   📁 hooks/
 │   │   │   │   📄 useAuth.js
+│   │   │   │   📄 useInterview.js
+│   │   │   │   📄 useMicrophone.js
 │   │   │   📁 layouts/
 │   │   │   │   📄 AuthLayout.jsx
 │   │   │   │   📄 DashboardLayout.jsx
@@ -135,6 +173,7 @@
 │   │   │   📁 services/
 │   │   │   │   📄 api.js
 │   │   │   │   📄 authService.js
+│   │   │   │   📄 interviewService.js
 │   │   │   │   📄 resumeService.js
 │   │   │   📁 utils/
 │   │   │   │   📄 ProtectedRoute.jsx

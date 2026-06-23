@@ -149,9 +149,7 @@ function ResumePage() {
   };
 
   const handleStartInterview = (resumeId) => {
-    // Navigate to interview page with resume_id as query param or route param
-    // navigate(`/dashboard/interview?resume_id=${resumeId}`);
-    toast.success(`Starting AI Interview for resume ${resumeId}`);
+    navigate(`/interview?resumeId=${resumeId}`);
   };
 
   const formatDate = (isoString) => {

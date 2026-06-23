@@ -99,7 +99,7 @@ function HomePage() {
                 <section
                     className={`
                         relative w-full
-                        ${videoPlaying ? "aspect-video sm:aspect-auto min-h-0" : "min-h-[30vh]"} sm:min-h-[70vh] lg:min-h-[85vh]
+                        aspect-video sm:portrait:h-[35vh] landscape:h-[calc(100dvh-6rem)]
                         bg-linear-to-b from-gray-950 via-gray-900 to-gray-950
                         flex items-center justify-center
                         overflow-hidden
@@ -110,33 +110,8 @@ function HomePage() {
 
                     {/* VIDEO ELEMENT */}
 
-                    {/* <div className={`
-                        absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                        w-full h-auto max-w-full max-h-full aspect-video
-                        transition-opacity duration-500
-                        ${videoPlaying ? "opacity-100" : "opacity-0 pointer-events-none"}
-                    `}>
-                        <video
-                            ref={videoRef}
-                            src={introVideo}
-                            onEnded={handleVideoEnded}
-                            playsInline
-                            className="w-full h-full object-cover"
-                        />
-                        {videoPlaying && (
-                            <div
-                                className="absolute bottom-[2%] left-[2%] w-[16%] h-[8%] backdrop-blur-xl bg-black/20 pointer-events-none z-10"
-                                style={{
-                                    maskImage: 'radial-gradient(circle, black 40%, transparent 80%)',
-                                    WebkitMaskImage: 'radial-gradient(circle, black 40%, transparent 80%)'
-                                }}
-                            />
-                        )}
-                    </div> */}
-
                     <div className={`
-                        absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-                        w-full h-auto max-w-full max-h-full aspect-video
+                        absolute inset-0 w-full h-full
                         transition-opacity duration-500
                         ${videoPlaying ? "opacity-100" : "opacity-0 pointer-events-none"}
                     `}>
@@ -145,29 +120,23 @@ function HomePage() {
                             src={introVideo}
                             onEnded={handleVideoEnded}
                             playsInline
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover block bg-black"
                         />
-                        {videoPlaying && (
-                            <>
-                                {/* Gradient vignette to hide watermark and provide contrast */}
-                                <div className="absolute bottom-0 left-0 w-[25%] h-[15%] bg-gradient-to-tr from-gray-950 via-gray-950/70 to-transparent pointer-events-none z-10" />
-                            </>
-                        )}
                     </div>
 
                     {/* PLAY BUTTON OVERLAY (before video starts) */}
                     {!videoPlaying && (
                         <div
-                            className="relative z-10 flex flex-col items-center justify-center gap-6 sm:gap-8 px-6 py-12 sm:py-20"
+                            className="relative z-10 flex flex-col items-center justify-center gap-4 sm:gap-8 px-4 sm:px-6 py-6 sm:py-20"
                         >
                             {/* Background glow effect */}
                             <div className="absolute w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-blue-600/20 blur-3xl animate-pulse" />
 
                             {/* Logo / Brand */}
-                            <h2 className="relative text-3xl sm:text-5xl font-bold text-white tracking-tight text-center">
+                            <h2 className="relative text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-tight text-center">
                                 Cognigate
                             </h2>
-                            <p className="relative text-sm sm:text-base text-gray-400 -mt-4 uppercase tracking-widest text-center">
+                            <p className="relative text-xs sm:text-xs md:text-sm lg:text-base text-gray-400 -mt-2 sm:-mt-4 uppercase tracking-widest text-center">
                                 Interview Preparation Platform
                             </p>
 
@@ -176,7 +145,7 @@ function HomePage() {
                                 onClick={handlePlayVideo}
                                 className="
                                     relative group
-                                    w-20 h-20 sm:w-24 sm:h-24
+                                    w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24
                                     rounded-full
                                     bg-white/10 backdrop-blur-md
                                     border border-white/20
@@ -188,12 +157,12 @@ function HomePage() {
                                 "
                             >
                                 <Play
-                                    size={32}
-                                    className="text-white ml-1 group-hover:scale-110 transition-transform sm:w-10 sm:h-10"
+                                    size={20}
+                                    className="text-white ml-1 group-hover:scale-110 transition-transform sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-10 lg:h-10"
                                 />
                             </button>
 
-                            <p className="relative text-xs sm:text-sm text-gray-500 text-center">
+                            <p className="relative text-[10px] sm:text-xs md:text-sm text-gray-500 text-center">
                                 Watch the intro
                             </p>
 
@@ -201,7 +170,7 @@ function HomePage() {
                             <button
                                 onClick={handleSkipVideo}
                                 className="
-                                    relative text-xs sm:text-sm text-gray-600
+                                    relative text-[10px] sm:text-xs md:text-sm text-gray-600
                                     hover:text-white
                                     transition-colors duration-200
                                     underline underline-offset-4
@@ -242,7 +211,7 @@ function HomePage() {
             )}
 
             {/* HERO SECTION */}
-            <section className={`max-w-7xl mx-auto px-6 ${showVideo ? "pt-10 md:pt-0" : ""} min-h-[60vh] lg:min-h-[85vh] flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16`}>
+            <section className="max-w-7xl mx-auto px-6 py-12 md:py-16 lg:pt-10 lg:pb-20 flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-12 lg:gap-16">
 
                 {/* LEFT SIDE */}
 
@@ -341,7 +310,7 @@ function HomePage() {
             </section>
 
             {/* HOW IT WORKS SECTION */}
-            <section className="max-w-7xl mx-auto px-6 py-16 md:py-28">
+            <section className="max-w-7xl mx-auto px-6 py-12 md:py-20">
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -510,11 +479,11 @@ function HomePage() {
                                     <SwiperSlide key={index} className="px-1 py-3">
                                         <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 min-h-[220px] flex flex-col justify-between">
                                             <div>
-                                                <div className={`w-12 h-12 rounded-xl ${item.iconBg} flex items-center justify-center mb-5`}>
+                                                <div className={`w-12 h-12 rounded-xl ${item.iconBg} flex items-center justify-center mx-auto mb-5`}>
                                                     <Icon className={item.iconColor} size={24} />
                                                 </div>
-                                                <h3 className="text-lg font-bold text-gray-900 mb-2">{item.title}</h3>
-                                                <p className="text-sm text-gray-600 leading-relaxed">{item.description}</p>
+                                                <h3 className="text-lg font-bold text-gray-900 text-center mb-2">{item.title}</h3>
+                                                <p className="text-sm text-gray-600 leading-relaxed text-justify" style={{ textJustify: 'inter-word', hyphens: 'auto', WebkitHyphens: 'auto' }}>{item.description}</p>
                                             </div>
                                         </div>
                                     </SwiperSlide>
@@ -526,8 +495,8 @@ function HomePage() {
                         <div className="why-swiper-pagination !relative !bottom-0 flex justify-center gap-2 mt-6"></div>
                     </div>
 
-                    {/* Desktop View: Grid Layout */}
-                    <div className="hidden md:grid md:grid-cols-3 gap-6 md:gap-8">
+                    {/* Desktop View: Flex Layout for automatic centering of orphan cards */}
+                    <div className="hidden md:flex flex-wrap justify-center gap-6 md:gap-8">
                         {whyReasons.map((item, index) => {
                             const Icon = item.icon;
                             return (
@@ -537,13 +506,13 @@ function HomePage() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.5, delay: index * 0.15 }}
-                                    className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                                    className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]"
                                 >
-                                    <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl ${item.iconBg} flex items-center justify-center mb-5 md:mb-6`}>
+                                    <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl ${item.iconBg} flex items-center justify-center mx-auto mb-5 md:mb-6`}>
                                         <Icon className={item.iconColor} size={26} />
                                     </div>
-                                    <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                                    <p className="text-sm md:text-base text-gray-600 leading-relaxed">{item.description}</p>
+                                    <h3 className="text-lg md:text-xl font-bold text-gray-900 text-center mb-3">{item.title}</h3>
+                                    <p className="text-sm md:text-base text-gray-600 leading-relaxed text-justify" style={{ textJustify: 'inter-word', hyphens: 'auto', WebkitHyphens: 'auto' }}>{item.description}</p>
                                 </motion.div>
                             );
                         })}

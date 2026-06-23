@@ -28,6 +28,10 @@ from app.services.resume.resume_service import (
     delete_resume_service,
 )
 
+from app.services.resume.resume_validator import (
+    validate_resume_ownership
+)
+
 from app.utils.dependencies import get_current_user
 
 import os
@@ -141,18 +145,11 @@ def rename_resume(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-
-    resume = db.query(Resume).filter(
-        Resume.id == resume_id,
-        Resume.user_id == current_user.id,
-    ).first()
-
-    if not resume:
-
-        raise HTTPException(
-            status_code=404,
-            detail="Resume not found"
-        )
+    resume = validate_resume_ownership(
+        db,
+        resume_id,
+        current_user.id
+    )
 
     resume.title = data.new_title
 
@@ -178,18 +175,11 @@ def delete_resume(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-
-    resume = db.query(Resume).filter(
-        Resume.id == resume_id,
-        Resume.user_id == current_user.id,
-    ).first()
-
-    if not resume:
-
-        raise HTTPException(
-            status_code=404,
-            detail="Resume not found"
-        )
+    resume = validate_resume_ownership(
+        db,
+        resume_id,
+        current_user.id
+    )
 
     return delete_resume_service(
         resume=resume,
@@ -208,18 +198,11 @@ def download_resume(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-
-    resume = db.query(Resume).filter(
-        Resume.id == resume_id,
-        Resume.user_id == current_user.id,
-    ).first()
-
-    if not resume:
-
-        raise HTTPException(
-            status_code=404,
-            detail="Resume not found"
-        )
+    resume = validate_resume_ownership(
+        db,
+        resume_id,
+        current_user.id
+    )
 
     if not os.path.exists(resume.file_path):
 
@@ -251,17 +234,11 @@ def view_resume_chunks(
     # CHECK OWNERSHIP
     # =====================================
 
-    resume = db.query(Resume).filter(
-        Resume.id == resume_id,
-        Resume.user_id == current_user.id,
-    ).first()
-
-    if not resume:
-
-        raise HTTPException(
-            status_code=404,
-            detail="Resume not found"
-        )
+    resume = validate_resume_ownership(
+        db,
+        resume_id,
+        current_user.id
+    )
 
     # =====================================
     # GET CHUNKS
